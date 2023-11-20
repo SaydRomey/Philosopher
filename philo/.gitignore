@@ -1,0 +1,10 @@
+
+*.o
+*.a
+*.out
+*.pdf
+
+philo
+
+.DS_Store
+.vscode/
