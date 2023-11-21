@@ -6,61 +6,40 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/20 21:45:32 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/21 11:14:58 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <time.h>
 
-int	x = 0;
-pthread_mutex_t mutex;
-
-void	*routine(void *arg)
+void	*roll_dice(void *arg)
 {
-	int	i;
-
+	int	value;
+	int	*result;
+	
 	(void)arg;
-	i = 0;
-	while (i < 10000)
-	{
-		pthread_mutex_lock(&mutex);
-		x++;
-		i++;
-		pthread_mutex_unlock(&mutex);
-	}
-	return (NULL);
+	value = (rand() % 6) + 1;
+	result = malloc(sizeof(int));
+	*result = value;
+	printf("Thread result: %p\n", result);
+	return ((void *)result);
 }
 
 int	main(int argc, char **argv)
 {
-	pthread_t	thread[4];
-	int			i;
+	pthread_t	thread;
+	int			*res;
 
 	(void)argc;
 	(void)argv;
-	// 
-	pthread_mutex_init(&mutex, NULL);
-	i = 0;
-	while (i < 4)
-	{
-		if (pthread_create(&thread[i], NULL, &routine, NULL) != 0)
-		{
-			perror("pthread_create");
-			return (1);
-		}
-		printf("Thread %d has started\n", i);
-		i++;
-	}
-	i = 0;
-	while (i < 4)
-	{
-		if (pthread_join(thread[i], NULL) != 0)
-			return (2);
-		printf("Thread %d has ended\n", i);
-		i++;
-	}
-	pthread_mutex_destroy(&mutex);
-	printf("Value of x: %d\n", x);
-	// 
+	srand(time(NULL));
+	if (pthread_create(&thread, NULL, roll_dice, NULL) != 0)
+		return (1);
+	if (pthread_join(thread, (void **)&res) != 0)
+		return (1);
+	printf("Main res: %p\n", res);
+	printf("Result: %d\n", *res);
+	free(res);
 	return (0);
 }
