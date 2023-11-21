@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 14:37:49 by cdumais           #+#    #+#              #
-#    Updated: 2023/11/20 16:47:07 by cdumais          ###   ########.fr        #
+#    Updated: 2023/11/20 20:54:45 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ ARGS	:=
 INC_DIR	:= inc
 OBJ_DIR	:= obj
 SRC_DIR	:= src
+TMP_DIR	:= tmp
 
 COMPILE	:= gcc
 C_FLAGS	:= -Wall -Wextra -Werror
@@ -26,7 +27,7 @@ L_FLAGS	:= -lpthread
 HEADERS	:= -I$(INC_DIR)
 
 REMOVE	:= rm -rf
-OS		:= $(shell uname)
+OS		:= $(shell uname -s)
 
 ifeq ($(OS),Linux)
 	C_FLAGS += $(L_FLAGS)
@@ -78,26 +79,39 @@ fclean: clean
 
 re: fclean all
 
+.PHONY: all clean fclean re
+# **************************************************************************** #
+# ---------------------------------- UTILS ----------------------------------- #
+# **************************************************************************** #
 run: $(NAME)
 	@./$(NAME) $(ARGS)
 
-.PHONY: all clean fclean re run
+assembly: $(NAME) | $(TMP_DIR)
+	@$(COMPILE) $(C_FLAGS) -S $(SRCS) $(HEADERS)
+	@mv *.s $(TMP_DIR)
+	@echo "Assembly files created in $(TMP_DIR)"
+
+$(TMP_DIR):
+	@mkdir -p $(TMP_DIR)
+
+ffclean: fclean
+	@$(REMOVE) $(TMP_DIR)
+
+.PHONY: run assembly ffclean
 # **************************************************************************** #
 # ---------------------------------- PDF ------------------------------------- #
 # **************************************************************************** #
 PDF		:= philo_en.pdf
 GIT_URL := https://github.com/SaydRomey/42_ressources
 PDF_URL = $(GIT_URL)/blob/main/pdf/$(PDF)?raw=true
-OS		= $(shell uname -s)
 
-pdf:
-	@curl -# -L $(PDF_URL) -o $(PDF)
+pdf: | $(TMP_DIR)
+	@curl -# -L $(PDF_URL) -o $(TMP_DIR)/$(PDF)
 ifeq ($(OS),Darwin)
-	@open $(PDF)
+	@open $(TMP_DIR)/$(PDF)
 else
-	@xdg-open $(PDF) || echo "Please install a compatible PDF viewer"
+	@xdg-open $(TMP_DIR)/$(PDF) || echo "Please install a compatible PDF viewer"
 endif
 
 .PHONY: pdf
 # **************************************************************************** #
-

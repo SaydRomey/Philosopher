@@ -1,10 +1,13 @@
 
 *.o
 *.a
-*.out
+*.s
 *.pdf
 
 philo
 
+obj
+tmp
+
 .DS_Store
-.vscode/
+.vscode
