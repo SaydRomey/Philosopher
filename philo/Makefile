@@ -6,15 +6,29 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 14:37:49 by cdumais           #+#    #+#              #
-#    Updated: 2023/11/20 20:54:45 by cdumais          ###   ########.fr        #
+#    Updated: 2023/11/23 10:42:03 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# https://nafuka11.github.io/philosophers-visualizer/
 # **************************************************************************** #
 # -------------------------------- VARIABLES --------------------------------- #
 # **************************************************************************** #
 NAME	:= philo
-ARGS	:=
+
+# number of philosophers
+ARG_1	:= 4
+# time to die
+ARG_2	:= 800
+# time to eat
+ARG_3	:= 200
+# time to sleep
+ARG_4	:= 200
+# number of times each philosopher must eat
+ARG_5	:= 7
+
+ARGS	:= $(ARG_1) $(ARG_2) $(ARG_3) $(ARG_4) $(ARG_5)
+
 
 INC_DIR	:= inc
 OBJ_DIR	:= obj
@@ -85,6 +99,9 @@ re: fclean all
 # **************************************************************************** #
 run: $(NAME)
 	@./$(NAME) $(ARGS)
+
+leaks: $(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
 
 assembly: $(NAME) | $(TMP_DIR)
 	@$(COMPILE) $(C_FLAGS) -S $(SRCS) $(HEADERS)
