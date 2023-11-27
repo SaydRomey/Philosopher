@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/23 10:50:15 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/27 10:49:03 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	print_status(t_philo *philo, char *status)
 	struct timeval	now;
 	long			elapsed;
 
+	pthread_mutex_lock(&call_info()->log_msg);
 	gettimeofday(&now, NULL);
-	elapsed = timeval_diff(call_param()->start_time, now);
-	pthread_mutex_lock(&call_param()->log_msg);
+	elapsed = timeval_diff(call_info()->start_time, now);
 	printf("%ld %d %s\n", elapsed, philo->id, status);
-	pthread_mutex_unlock(&call_param()->log_msg);
+	pthread_mutex_unlock(&call_info()->log_msg);
 }
 
 void	time_to_eat(t_philo *philo)
@@ -31,28 +31,28 @@ void	time_to_eat(t_philo *philo)
 	
 	gettimeofday(&now, NULL);
 	elapsed = timeval_diff(philo->last_meal, now);
-	if (elapsed > call_param()->time_to_die)
+	if (elapsed > call_info()->time_to_die)
 	{
 		print_status(philo, LOG_DIED);
-		call_param()->dead_philo = philo->id;
+		call_info()->dead_philo = philo->id;
 		return ;
 	}
 	print_status(philo, LOG_EAT);
-	spend_time(call_param()->time_to_eat);
+	spend_time(call_info()->time_to_eat);
 	philo->last_meal = now;
 }
 
 void	time_to_sleep(t_philo *philo)
 {
-	if (call_param()->dead_philo != 0)
+	if (call_info()->dead_philo != 0)
 		return ;
 	print_status(philo, LOG_SLEEP);
-	spend_time(call_param()->time_to_sleep);
+	spend_time(call_info()->time_to_sleep);
 }
 
 void	time_to_think(t_philo *philo)
 {
-	if (call_param()->dead_philo != 0)
+	if (call_info()->dead_philo != 0)
 		return ;
 	print_status(philo, LOG_THINK);
 }
@@ -83,11 +83,11 @@ void	*philo_routine(void *arg)
 	t_philo			*philo;
 
 	philo = (t_philo *)arg;
-	while (call_param()->dead_philo == 0)
+	while (call_info()->dead_philo == 0)
 	{
-		if (philo->meal_count == call_param()->meal_count)
+		if (philo->meal_count == call_info()->meal_count)
 			break ;
-		else if (call_param()->meal_count != -1)
+		else if (call_info()->meal_count != -1)
 			philo->meal_count++;
 		pthread_mutex_lock(&philo->left_fork);
 		print_status(philo, LOG_FORK);
@@ -107,7 +107,7 @@ int	setup_philos(t_philo **philos)
 	int	i;
 	int	philo_count;
 
-	philo_count = call_param()->philo_count;
+	philo_count = call_info()->philo_count;
 	*philos = (t_philo *)malloc(sizeof(t_philo) * philo_count);
 	if (!*philos)
 		return (set_error_msg("Malloc failed"), 1);

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/23 10:31:31 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:46:50 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@
 # define LOG_THINK	"is thinking"
 # define LOG_DIED	"died"
 
-typedef struct s_param
+typedef struct s_info
 {
 	int				philo_count;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				meal_count;
 	int				dead_philo;
 	char			*error_msg;
 	pthread_mutex_t	log_msg;
 	struct timeval	start_time;
-}			t_param;
+}			t_info;
 
 typedef struct s_philo
 {
@@ -64,12 +64,12 @@ typedef struct s_philo
 // arguments.c
 int		args_are_valid(int argc, char **argv);
 
-// params.c
-t_param	*call_param(void);
-void	set_params(int argc, char **argv);
+// info.c
+t_info	*call_info(void);
+void	set_info(int argc, char **argv);
 void	set_error_msg(char *msg);
 char	*get_error_msg(void);
-void	free_param(void);
+void	free_info(void);
 
 // philo.c
 int		setup_philos(t_philo **philos);
@@ -81,7 +81,7 @@ void	test_sleep_accuracy(void);
 
 // utils.c
 int		ft_isdigit(char c);
-int		ft_atoi(char *str);
+long	ft_atol(char *str);
 void	ft_putstr_fd(char *str, int fd);
 int		error(int exit_status);
 int		cleanup(int exit_status);

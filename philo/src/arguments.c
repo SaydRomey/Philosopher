@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args_are_valid.c                                   :+:      :+:    :+:   */
+/*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:55:07 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/22 12:55:29 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:42:49 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	args_is_positive_int(char *arg)
 	int	i;
 
 	i = 0;
-	if (ft_atoi(arg) == 0)
+	if (ft_atol(arg) == 0)
 		return (FALSE);
 	while (arg[i])
 	{
@@ -41,7 +41,7 @@ int	args_are_valid(int argc, char **argv)
 			return (set_error_msg(ERR_ARG_INT), FALSE);
 		i++;
 	}
-	if (ft_atoi(argv[1]) > PHILO_MAX)
+	if (ft_atol(argv[1]) > PHILO_MAX)
 		return (set_error_msg(ERR_PHILO_MAX), FALSE);
 	return (TRUE);
 }

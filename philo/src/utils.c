@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:35:41 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/22 18:26:43 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:44:37 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ft_isdigit(char c)
 	return (FALSE);
 }
 
-int	ft_atoi(char *str)
+long	ft_atol(char *str)
 {
-	int	i;
-	int	sign;
-	int	result;
-	int	digit;
+	int		i;
+	int		sign;
+	int		digit;
+	long	result;
 
 	i = 0;
 	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
@@ -58,7 +58,7 @@ void	ft_putstr_fd(char *str, int fd)
 }
 
 /*
-prints current error message in 't_param' to stderr,
+prints current error message in 't_info' to stderr,
 frees the struct and returns 'exit_status'
 */
 int	error(int exit_status)
@@ -66,7 +66,7 @@ int	error(int exit_status)
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	ft_putstr_fd(get_error_msg(), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	free_param();
+	free_info();
 	return (exit_status);
 }
 
@@ -75,6 +75,6 @@ frees 't_param' and returns 'exit_status'
 */
 int	cleanup(int exit_status)
 {
-	free_param();
+	free_info();
 	return (exit_status);
 }

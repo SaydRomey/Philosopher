@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/22 23:38:33 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:43:02 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv)
 	t_philo *philos;
 
 	if (args_are_valid(argc, argv))
-		set_params(argc, argv);
+		set_info(argc, argv);
 	else
 		return (error(EXIT_FAILURE));
 	// 

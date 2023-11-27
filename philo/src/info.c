@@ -1,73 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   params.c                                           :+:      :+:    :+:   */
+/*   infos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:22:54 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/23 10:32:58 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/23 12:38:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_param	*call_param(void)
+t_info	*call_info(void)
 {
-	static t_param	*param;
+	static t_info	*info;
 
-	if (param == NULL)
+	if (info == NULL)
 	{
-		param = malloc(sizeof(t_param));
-		if (param == NULL)
+		info = malloc(sizeof(t_info));
+		if (info == NULL)
 			return (NULL);
 	}
-	return (param);
+	return (info);
 }
 
-void	set_params(int argc, char **argv)
+void	set_info(int argc, char **argv)
 {
-	t_param			*param;
+	t_info			*info;
 	struct timeval	start_time;
 
-	param = call_param();
-	param->philo_count = ft_atoi(argv[1]);
-	param->time_to_die = ft_atoi(argv[2]);
-	param->time_to_eat = ft_atoi(argv[3]);
-	param->time_to_sleep = ft_atoi(argv[4]);
+	info = call_info();
+	info->philo_count = ft_atol(argv[1]);
+	info->time_to_die = ft_atol(argv[2]);
+	info->time_to_eat = ft_atol(argv[3]);
+	info->time_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		param->meal_count = ft_atoi(argv[5]);
+		info->meal_count = ft_atol(argv[5]);
 	else
-		param->meal_count = -1;
-	param->dead_philo = 0;
+		info->meal_count = -1;
+	info->dead_philo = 0;
 	gettimeofday(&start_time, NULL);
-	param->start_time = start_time;
+	info->start_time = start_time;
 }
 
-void	free_param(void)
+void	free_info(void)
 {
-	t_param	*param;
+	t_info	*info;
 
-	param = call_param();
-	free(param);
+	info = call_info();
+	free(info);
 }
 
 void	set_error_msg(char *msg)
 {
-	t_param	*param;
+	t_info	*info;
 
-	param = call_param();
-	if (param->error_msg)
-		free(param->error_msg);
-	param->error_msg = msg;
+	info = call_info();
+	if (info->error_msg)
+		free(info->error_msg);
+	info->error_msg = msg;
 }
 
 /*
 */
 char	*get_error_msg(void)
 {
-	t_param	*param;
+	t_info	*info;
 
-	param = call_param();
-	return (param->error_msg);
+	info = call_info();
+	return (info->error_msg);
 }
