@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 13:28:37 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 14:44:30 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define ERR_MALLOC			"malloc() failed"
 # define ERR_MUTEX_INIT		"pthread_mutex_init() failed"
 # define ERR_MUTEX_DESTROY	"pthread_mutex_destroy() failed"
+# define ERR_THREAD_CREATE	"pthread_create() failed"
 
 // log messages
 
@@ -106,6 +107,10 @@ int		destroy_mutexes(void);
 
 // philo.c
 int		setup_philos(t_philo **philos);
+
+// threads.c
+int		create_threads(t_philo *philo);
+void	wait_for_threads(t_philo *philo);
 
 // time_utils.c
 long	timeval_diff(struct timeval start, struct timeval end);

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 14:04:35 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 14:44:34 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,23 @@
 
 void	start_simulation(t_philo *philo)
 {
-	printf("Starting simulation...\n");
+	printf("Starting simulation...\n"); //tmp
+	// 
+	call_info()->start_time = philo_time();
+	if (create_threads(philo) != SUCCESS)
+		{
+			printf("%s\n", get_error_msg());
+			return ;
+		}
+	wait_for_threads(philo);
+	// 
 	free(philo);
 }
 
 int	main(int argc, char **argv)
 {
-	t_philo *philo;
 	int		ok;
+	t_philo *philo;
 
 	ok = TRUE;
 	if (!args_are_valid(argc, argv))
