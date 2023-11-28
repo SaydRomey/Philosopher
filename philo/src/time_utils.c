@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 18:09:59 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/23 10:12:10 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 10:13:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,24 @@ void	spend_time(long milliseconds)
 		if (remaining > 1000)
 			usleep(remaining / 2);
 	}
+}
+
+/*
+get current time in milliseconds
+*/
+long	philo_time(void)
+{
+	struct timeval	time;
+	long			milliseconds;
+
+	if (gettimeofday(&time, NULL) == -1)
+	{
+		set_error_msg(ERR_TIMEOFDAY);
+		return (-1);
+	}
+	milliseconds = (long)time.tv_sec * 1000;
+	milliseconds += (long)time.tv_usec / 1000;
+	return (milliseconds);
 }
 
 // 

@@ -20,28 +20,29 @@ t_info	*call_info(void)
 	{
 		info = malloc(sizeof(t_info));
 		if (info == NULL)
-			return (NULL);
+			return (set_error_msg(ERR_MALLOC), NULL);
 	}
 	return (info);
 }
 
 void	set_info(int argc, char **argv)
 {
-	t_info			*info;
-	struct timeval	start_time;
+	t_info	*info;
 
 	info = call_info();
-	info->philo_count = ft_atol(argv[1]);
+	info->number_of_philos = (int)ft_atol(argv[1]);
 	info->time_to_die = ft_atol(argv[2]);
 	info->time_to_eat = ft_atol(argv[3]);
 	info->time_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-		info->meal_count = ft_atol(argv[5]);
+	{
+		info->meal_goal = ft_atol(argv[5]);
+		info->meal_goal *= info->number_of_philos;
+	}
 	else
-		info->meal_count = -1;
-	info->dead_philo = 0;
-	gettimeofday(&start_time, NULL);
-	info->start_time = start_time;
+		info->meal_goal = -1;
+	info->total_meal_count = 0;
+	info->dead_philo = FALSE;
 }
 
 void	free_info(void)
@@ -49,25 +50,8 @@ void	free_info(void)
 	t_info	*info;
 
 	info = call_info();
+	destroy_mutexes();
+	if (info->forks != NULL)
+		free(info->forks);
 	free(info);
-}
-
-void	set_error_msg(char *msg)
-{
-	t_info	*info;
-
-	info = call_info();
-	if (info->error_msg)
-		free(info->error_msg);
-	info->error_msg = msg;
-}
-
-/*
-*/
-char	*get_error_msg(void)
-{
-	t_info	*info;
-
-	info = call_info();
-	return (info->error_msg);
 }
