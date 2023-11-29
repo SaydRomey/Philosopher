@@ -6,17 +6,27 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 14:01:40 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:34:30 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+/*
+returns the index of the left fork
+**if index is 0, returns the last index*
+(undefined behavior if index is negative)
+*/
 static inline int	left_index(int index, int last_index)
 {
 	return ((index - 1 + last_index) % last_index);
 }
 
+/*
+returns the index of the right fork
+**if index is the last index, returns 0*
+(undefined behavior if index is negative)
+*/
 static inline int	right_index(int index, int last_index)
 {
 	return ((index + 1) % last_index);
@@ -24,6 +34,7 @@ static inline int	right_index(int index, int last_index)
 
 /*
 handles the creation of the 't_philo' array
+sets the 'philo_ptr' in 't_info' to the address of the array
 and returns SUCCESS (1) or FAILURE (0)
 */
 int	setup_philos(t_philo **philo)
@@ -45,5 +56,6 @@ int	setup_philos(t_philo **philo)
 		(*philo)[i].meals_eaten = 0;
 		i++;
 	}
+	call_info()->philo_ptr = *philo;
 	return (SUCCESS);
 }

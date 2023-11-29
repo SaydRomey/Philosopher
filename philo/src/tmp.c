@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:31:18 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 12:01:57 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 18:37:42 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,9 @@ void	print_philo_info(t_philo *philo)
 		printf("\n");
 		i++;
 	}
+}
+
+void	proof(char *msg)
+{
+	printf("%s\n", msg);
 }

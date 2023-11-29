@@ -51,7 +51,9 @@ void	free_info(void)
 
 	info = call_info();
 	destroy_mutexes();
-	if (info->forks != NULL)
+	if (info->forks)
 		free(info->forks);
+	if (info->philo_ptr)
+		free(info->philo_ptr);
 	free(info);
 }

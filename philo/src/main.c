@@ -6,25 +6,25 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 14:44:34 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 20:12:47 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	start_simulation(t_philo *philo)
+void	start_simulation(void)
 {
-	printf("Starting simulation...\n"); //tmp
-	// 
-	call_info()->start_time = philo_time();
+	t_info	*info;
+	t_philo	*philo;
+
+	info = call_info();
+	philo = info->philo_ptr;
+	info->start_time = philo_time();
 	if (create_threads(philo) != SUCCESS)
-		{
-			printf("%s\n", get_error_msg());
-			return ;
-		}
-	wait_for_threads(philo);
-	// 
-	free(philo);
+			return (put_error_msg());
+	if (wait_for_threads(philo) != SUCCESS)
+			return (put_error_msg());
+	check_for_dead(philo);
 }
 
 int	main(int argc, char **argv)
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 			ok = FALSE;
 	}
 	if (ok)
-		start_simulation(philo);
+		start_simulation();
 	else
 		return (error(FAILURE));
 	return (cleanup(SUCCESS));

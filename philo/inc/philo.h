@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 14:44:30 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/28 21:16:09 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define ERR_MUTEX_INIT		"pthread_mutex_init() failed"
 # define ERR_MUTEX_DESTROY	"pthread_mutex_destroy() failed"
 # define ERR_THREAD_CREATE	"pthread_create() failed"
+# define ERR_THREAD_JOIN	"pthread_join() failed"
 
 // log messages
 
@@ -52,14 +53,12 @@
 # define LOG_THINK	"is thinking"
 # define LOG_DIED	"died"
 
-typedef long			t_time;
-
 typedef struct s_philo
 {
 	int				id;
 	int				left_fork;
 	int				right_fork;
-	t_time			last_meal_time;
+	long			last_meal_time;
 	int				meals_eaten;
 	pthread_t		thread;
 }					t_philo;
@@ -67,9 +66,9 @@ typedef struct s_philo
 typedef struct s_info
 {
 	int				number_of_philos;
-	t_time			time_to_die;
-	t_time			time_to_eat;
-	t_time			time_to_sleep;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				meal_goal; // optional (default = -1)
 	int				total_meal_count;
 	// 
@@ -78,10 +77,11 @@ typedef struct s_info
 	pthread_mutex_t	philo_state;
 	pthread_mutex_t	meal_time;
 	// 
+	t_philo			*philo_ptr;
 	int				dead_philo;
-	t_time			start_time;
+	long			start_time;
 	char			*error_msg;
-}			t_info;
+}					t_info;
 
 // arguments.c
 int		args_are_valid(int argc, char **argv);
@@ -89,15 +89,23 @@ int		args_are_valid(int argc, char **argv);
 // cleanup.c
 int		cleanup(int exit_status);
 
+// death.c
+void	check_for_dead(t_philo *philo_ptr);
+
 // error.c
 void	set_error_msg(char *msg);
 char	*get_error_msg(void);
-int		error(int exit_status);
+void	put_error_msg(void);
+int		error(int return_value);
 
 // info.c
 t_info	*call_info(void);
 void	set_info(int argc, char **argv);
 void	free_info(void);
+
+// log.c
+void	log_state_change(long time, int id, char *state);
+void	log_death(long time, int id);
 
 // mutexes.c
 int		allocate_forks(void);
@@ -108,9 +116,12 @@ int		destroy_mutexes(void);
 // philo.c
 int		setup_philos(t_philo **philos);
 
+// routine.c
+void	*routine(void *arg);
+
 // threads.c
-int		create_threads(t_philo *philo);
-void	wait_for_threads(t_philo *philo);
+int		create_threads(t_philo *philo_ptr);
+int		wait_for_threads(t_philo *philo_ptr);
 
 // time_utils.c
 long	timeval_diff(struct timeval start, struct timeval end);
@@ -121,6 +132,7 @@ void	test_sleep_accuracy(void);
 // tmp.c
 void	print_info(void);
 void	print_philo_info(t_philo *philo);
+void	proof(char *msg);
 
 // utils.c
 int		ft_isdigit(char c);
