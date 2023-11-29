@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:31:17 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 21:44:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 13:00:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	time_to_eat(t_philo *philo)
 	t_info	*info;
 
 	info = call_info();
+	// 
 	pthread_mutex_lock(&info->forks[philo->left_fork]);
 	log_state_change(philo_time(), philo->id, LOG_FORK);
 	pthread_mutex_lock(&info->forks[philo->right_fork]);
@@ -28,8 +29,8 @@ void	time_to_eat(t_philo *philo)
 	info->total_meal_count++;
 	pthread_mutex_unlock(&info->meal_time);
 	spend_time(info->time_to_eat);
-	pthread_mutex_unlock(&info->forks[philo->left_fork]);
 	pthread_mutex_unlock(&info->forks[philo->right_fork]);
+	pthread_mutex_unlock(&info->forks[philo->left_fork]);
 	// 
 	spend_time(info->time_to_sleep);
 	log_state_change(philo_time(), philo->id, LOG_SLEEP);
@@ -60,11 +61,9 @@ void	*routine(void *arg)
 
 	info = call_info();
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 1)
-	{
-		// log_state_change(philo_time(), philo->id, LOG_THINK);
+	if (philo->id % 2 == 0)
+		// spend_time(100);
 		spend_time(info->time_to_eat);
-	}
 	while (TRUE)
 	{
 		if (dining_is_over())

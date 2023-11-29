@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 10:45:48 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 17:16:05 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 11:54:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*get_error_msg(void)
 	t_info	*info;
 
 	info = call_info();
+	if (!info->error_msg)
+		return ("[insert error message here]");
 	return (info->error_msg);
 }
 

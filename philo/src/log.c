@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 18:21:23 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 21:19:20 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 11:41:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	log_death(long time, int id)
 	info = call_info();
 	pthread_mutex_lock(&info->log_msg);
 	now = time - info->start_time;
-	printf("%ld %d %s\n", now, id, LOG_DIED);
+	printf("%ld\t%d %s\n", now, id, LOG_DIED);
 	pthread_mutex_unlock(&info->log_msg);
 }
 
@@ -42,10 +42,11 @@ void	log_state_change(long time, int id, char *state)
 	info = call_info();
 	pthread_mutex_lock(&info->log_msg);
 	now = time - info->start_time;
+	now = now - (now % 10);
 	pthread_mutex_lock(&info->philo_state);
 	dead = info->dead_philo;
 	pthread_mutex_unlock(&info->philo_state);
 	if (dead == FALSE)
-		printf("%ld %d %s\n", now, id, state);
+		printf("%ld\t%d %s\n", now, id, state);
 	pthread_mutex_unlock(&info->log_msg);
 }

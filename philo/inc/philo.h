@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 21:16:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 12:26:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_philo
 	int				left_fork;
 	int				right_fork;
 	long			last_meal_time;
-	int				meals_eaten;
+	// int				meals_eaten;
 	pthread_t		thread;
 }					t_philo;
 

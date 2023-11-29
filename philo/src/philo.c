@@ -6,30 +6,15 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 17:34:30 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 12:26:37 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-returns the index of the left fork
-**if index is 0, returns the last index*
-(undefined behavior if index is negative)
-*/
-static inline int	left_index(int index, int last_index)
+static inline int right_index(int index, int last_index)
 {
-	return ((index - 1 + last_index) % last_index);
-}
-
-/*
-returns the index of the right fork
-**if index is the last index, returns 0*
-(undefined behavior if index is negative)
-*/
-static inline int	right_index(int index, int last_index)
-{
-	return ((index + 1) % last_index);
+    return (index + 1) % last_index;
 }
 
 /*
@@ -50,10 +35,10 @@ int	setup_philos(t_philo **philo)
 	while (i < number_of_philos)
 	{
 		(*philo)[i].id = i + 1;
-		(*philo)[i].left_fork = left_index(i, number_of_philos);
+		(*philo)[i].left_fork = i;
 		(*philo)[i].right_fork = right_index(i, number_of_philos);
 		(*philo)[i].last_meal_time = philo_time();
-		(*philo)[i].meals_eaten = 0;
+		// (*philo)[i].meals_eaten = 0;
 		i++;
 	}
 	call_info()->philo_ptr = *philo;

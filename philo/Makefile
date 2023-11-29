@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 14:37:49 by cdumais           #+#    #+#              #
-#    Updated: 2023/11/28 17:28:06 by cdumais          ###   ########.fr        #
+#    Updated: 2023/11/29 12:08:55 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,18 @@ ARG_3	:= 200
 # time to sleep
 ARG_4	:= 200
 # number of times each philosopher must eat
-ARG_5	:= 4
+ARG_5	:= 2
 
-ARGS	:= $(ARG_1) $(ARG_2) $(ARG_3) $(ARG_4) $(ARG_5)
+# ARGS	:= $(ARG_1) $(ARG_2) $(ARG_3) $(ARG_4) $(ARG_5)
+
+# should not eat and should die
+# ARGS	:= 1 800 200 200
+
+# no philo should die
+# ARGS	:= 5 800 200 200
+
+# no philo should die and simulation should stop when all philos ate at least 3 times
+ARGS	:= 5 800 200 200 3
 
 
 INC_DIR	:= inc
@@ -101,8 +110,15 @@ re: fclean all
 run: $(NAME)
 	./$(NAME) $(ARGS)
 
+# adds -g flag to C_FLAGS and recompiles
+debug: C_FLAGS += -g
+debug: re
+
 leaks: $(NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
+
+helgrind: debug
+	@valgrind --tool=helgrind ./$(NAME) $(ARGS)
 
 assembly: $(NAME) | $(TMP_DIR)
 	@$(COMPILE) $(C_FLAGS) -S $(SRCS) $(HEADERS)

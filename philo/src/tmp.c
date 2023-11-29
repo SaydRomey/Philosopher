@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:31:18 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 18:37:42 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 12:26:50 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_philo_info(t_philo *philo)
 		printf("lfork index:\t%d\n", philo[i].left_fork);
 		printf("rfork index:\t%d\n", philo[i].right_fork);
 		printf("last meal time:\t%ld\n", philo[i].last_meal_time);
-		printf("meals eaten:\t%d\n", philo[i].meals_eaten);
+		// printf("meals eaten:\t%d\n", philo[i].meals_eaten);
 		printf("\n");
 		i++;
 	}
