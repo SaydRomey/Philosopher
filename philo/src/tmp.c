@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:31:18 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 12:26:50 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 22:51:24 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_info(void)
 	printf("time to eat:\t%ld\n", info->time_to_eat);
 	printf("time to sleep:\t%ld\n", info->time_to_sleep);
 	printf("meal goal:\t%d\n", info->meal_goal);
-	printf("meal count:\t%d\n", info->total_meal_count);
+	// printf("meal count:\t%d\n", info->total_meal_count);
 	printf("\n");
 }
 

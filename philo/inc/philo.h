@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 12:26:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 22:28:49 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ typedef struct s_philo
 	int				left_fork;
 	int				right_fork;
 	long			last_meal_time;
-	// int				meals_eaten;
+	int				meals_eaten;
+	int				full;
 	pthread_t		thread;
 }					t_philo;
 
@@ -70,12 +71,12 @@ typedef struct s_info
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				meal_goal; // optional (default = -1)
-	int				total_meal_count;
+	// int				total_meal_count;
 	// 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log_msg;
-	pthread_mutex_t	philo_state;
-	pthread_mutex_t	meal_time;
+	pthread_mutex_t	philo_state; //to check if a philo is dead
+	pthread_mutex_t	meal_time; // used for last_meal_time and total_meal_count
 	// 
 	t_philo			*philo_ptr;
 	int				dead_philo;
@@ -91,6 +92,7 @@ int		cleanup(int exit_status);
 
 // death.c
 void	check_for_dead(t_philo *philo_ptr);
+int		death_happened(t_info *info);
 
 // error.c
 void	set_error_msg(char *msg);

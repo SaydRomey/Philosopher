@@ -6,11 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 11:58:32 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 22:14:25 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+// check for optionnal arg at 0 ?
 
 int	table_for_one(void)
 {
@@ -59,8 +61,6 @@ int	main(int argc, char **argv)
 		else if (setup_mutexes() != SUCCESS)
 			ok = FALSE;
 	}
-	// if (table_for_one())
-	// 	return (cleanup(SUCCESS));
 	if (ok)
 		start_simulation();
 	else

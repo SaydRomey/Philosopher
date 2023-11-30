@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 12:26:37 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/29 22:19:57 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	setup_philos(t_philo **philo)
 		(*philo)[i].left_fork = i;
 		(*philo)[i].right_fork = right_index(i, number_of_philos);
 		(*philo)[i].last_meal_time = philo_time();
-		// (*philo)[i].meals_eaten = 0;
+		(*philo)[i].meals_eaten = 0;
+		(*philo)[i].full = FALSE;
 		i++;
 	}
 	call_info()->philo_ptr = *philo;
