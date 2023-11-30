@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 22:28:49 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 13:46:41 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,16 @@
 
 // log messages
 
+# define GREEN		"\033[32m"
+# define RED		"\033[31m"
+# define RESET		"\033[0m"
+
 # define LOG_FORK	"has taken a fork"
 # define LOG_EAT	"is eating"
 # define LOG_SLEEP	"is sleeping"
 # define LOG_THINK	"is thinking"
 # define LOG_DIED	"died"
+# define LOG_FULL	"is full"
 
 typedef struct s_philo
 {
@@ -60,8 +65,8 @@ typedef struct s_philo
 	int				right_fork;
 	long			last_meal_time;
 	int				meals_eaten;
-	int				full;
 	pthread_t		thread;
+	// 
 }					t_philo;
 
 typedef struct s_info
@@ -74,9 +79,9 @@ typedef struct s_info
 	// int				total_meal_count;
 	// 
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	log_msg;
-	pthread_mutex_t	philo_state; //to check if a philo is dead
-	pthread_mutex_t	meal_time; // used for last_meal_time and total_meal_count
+	pthread_mutex_t	log_mutex;
+	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	death_mutex;
 	// 
 	t_philo			*philo_ptr;
 	int				dead_philo;
@@ -92,7 +97,7 @@ int		cleanup(int exit_status);
 
 // death.c
 void	check_for_dead(t_philo *philo_ptr);
-int		death_happened(t_info *info);
+int		no_one_is_dead(t_info *info);
 
 // error.c
 void	set_error_msg(char *msg);
@@ -106,7 +111,7 @@ void	set_info(int argc, char **argv);
 void	free_info(void);
 
 // log.c
-void	log_state_change(long time, int id, char *state);
+void	log_state_change(long time, int id, char *state, char *color);
 void	log_death(long time, int id);
 
 // mutexes.c
@@ -135,6 +140,7 @@ void	test_sleep_accuracy(void);
 void	print_info(void);
 void	print_philo_info(t_philo *philo);
 void	proof(char *msg);
+void	tmp_log(char *msg, ...);
 
 // utils.c
 int		ft_isdigit(char c);

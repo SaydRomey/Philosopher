@@ -6,16 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 22:19:57 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 13:46:46 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static inline int right_index(int index, int last_index)
-{
-    return (index + 1) % last_index;
-}
 
 /*
 handles the creation of the 't_philo' array
@@ -36,10 +31,9 @@ int	setup_philos(t_philo **philo)
 	{
 		(*philo)[i].id = i + 1;
 		(*philo)[i].left_fork = i;
-		(*philo)[i].right_fork = right_index(i, number_of_philos);
+		(*philo)[i].right_fork = (i + 1) % number_of_philos;
 		(*philo)[i].last_meal_time = philo_time();
 		(*philo)[i].meals_eaten = 0;
-		(*philo)[i].full = FALSE;
 		i++;
 	}
 	call_info()->philo_ptr = *philo;

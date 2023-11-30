@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 22:14:25 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 13:36:53 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	table_for_one(void)
 	if (info->number_of_philos == 1)
 	{
 		spend_time(info->time_to_die);
-		printf("%ld\t%d %s\n", info->time_to_die, 1, LOG_DIED);
+		// printf("%ld\t%d %s\n", info->time_to_die, 1, LOG_DIED);
+		log_death(info->time_to_die, 1);
 		return (TRUE);
 	}
 	return (FALSE);

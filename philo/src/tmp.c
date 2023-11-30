@@ -6,11 +6,12 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:31:18 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 22:51:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 12:56:14 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdarg.h>
 
 void	print_info(void)
 {
@@ -52,4 +53,17 @@ void	print_philo_info(t_philo *philo)
 void	proof(char *msg)
 {
 	printf("%s\n", msg);
+}
+
+void	tmp_log(char *msg, ...)
+{
+	t_info	*info;
+	va_list	args;
+
+	info = call_info();
+	pthread_mutex_lock(&info->log_mutex);
+	va_start(args, msg);
+	vprintf(msg, args);
+	va_end(args);
+	pthread_mutex_unlock(&info->log_mutex);
 }

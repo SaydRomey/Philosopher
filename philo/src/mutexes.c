@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 12:15:04 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 10:50:43 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 10:42:32 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	allocate_forks(void)
 int	init_mutexes(void)
 {
 	int		i;
+	int		check;
 	t_info	*info;
 
 	i = 0;
@@ -36,11 +37,11 @@ int	init_mutexes(void)
 			return (set_error_msg(ERR_MUTEX_INIT), FAILURE);
 		i++;
 	}
-	i = 0;
-	i += pthread_mutex_init(&info->log_msg, NULL);
-	i += pthread_mutex_init(&info->philo_state, NULL);
-	i += pthread_mutex_init(&info->meal_time, NULL);
-	if (i != SUCCESS)
+	check = 0;
+	check += pthread_mutex_init(&info->log_mutex, NULL);
+	check += pthread_mutex_init(&info->meal_mutex, NULL);
+	check += pthread_mutex_init(&info->death_mutex, NULL);
+	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_INIT), FAILURE);
 	return (SUCCESS);
 }
@@ -57,6 +58,7 @@ int	setup_mutexes(void)
 int	destroy_mutexes(void)
 {
 	int		i;
+	int		check;
 	t_info	*info;
 
 	i = 0;
@@ -67,11 +69,11 @@ int	destroy_mutexes(void)
 			return (set_error_msg(ERR_MUTEX_DESTROY), FAILURE);
 		i++;
 	}
-	i = 0;
-	i += pthread_mutex_destroy(&info->log_msg);
-	i += pthread_mutex_destroy(&info->philo_state);
-	i += pthread_mutex_destroy(&info->meal_time);
-	if (i != SUCCESS)
+	check = 0;
+	check += pthread_mutex_destroy(&info->log_mutex);
+	check += pthread_mutex_destroy(&info->meal_mutex);
+	check += pthread_mutex_destroy(&info->death_mutex);
+	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_DESTROY), FAILURE);
 	return (SUCCESS);
 }
