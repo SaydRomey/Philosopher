@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/01 20:45:36 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/01 21:39:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_info
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	death_mutex;
+	pthread_mutex_t	end_mutex; //?
 	// 
 	t_philo			*philo_ptr;
 	int				dead_philo;
@@ -143,10 +144,10 @@ long	philo_time(void);
 void	test_sleep_accuracy(void);
 
 // tmp.c
+void	tmp_log(char *msg, ...);
 void	print_info(void);
 void	print_philo_info(t_philo *philo);
-void	proof(char *msg);
-void	tmp_log(char *msg, ...);
+void	here(char *file, int line);
 void	lock_mutex(pthread_mutex_t *mutex, char *str, ...);
 void	unlock_mutex(pthread_mutex_t *mutex, char *str, ...);
 

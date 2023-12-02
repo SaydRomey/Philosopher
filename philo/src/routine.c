@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:31:17 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/01 20:01:15 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/01 21:50:07 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static int	dining_is_over(t_philo *philo)
 	int		full;
 
 	info = call_info();
-	lock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_lock(&info->meal_mutex);
+	// lock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
+	pthread_mutex_lock(&info->meal_mutex);
 	if (info->meal_goal > 0 && philo->meals_eaten >= info->meal_goal)
 	{
 		full = TRUE;
@@ -33,8 +33,8 @@ static int	dining_is_over(t_philo *philo)
 	}
 	else
 		full = FALSE;
-	unlock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_unlock(&info->meal_mutex);
+	// unlock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
+	pthread_mutex_unlock(&info->meal_mutex);
 	return (full);
 }
 
@@ -55,12 +55,12 @@ void	time_to_eat(t_philo *philo)
 
 	info = call_info();
 	log_state_change(philo_time(), philo->id, LOG_EAT, NULL);
-	lock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_lock(&info->meal_mutex);
+	// lock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
+	pthread_mutex_lock(&info->meal_mutex);
 	philo->last_meal_time = philo_time();
 	philo->meals_eaten++;
-	unlock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_unlock(&info->meal_mutex);
+	// unlock_mutex(&info->meal_mutex, "[meal_mutex] (%s, l.%d)", __FILE__, __LINE__);
+	pthread_mutex_unlock(&info->meal_mutex);
 	spend_time(info->time_to_eat);
 	pthread_mutex_unlock(&info->forks[philo->left_fork]);
 	// log_state_change(philo_time(), philo->id, "dropped a fork\t(left)", NULL); //tmp
@@ -82,7 +82,7 @@ void	*routine(void *arg)
 {
 	t_philo		*philo;
 	t_info		*info;
-	// pthread_t	coroner; //test
+	pthread_t	coroner; //test
 
 	info = call_info();
 	philo = (t_philo *)arg;
@@ -93,10 +93,10 @@ void	*routine(void *arg)
 	}
 	while (no_one_is_dead(info))
 	{
-		// pthread_create(&coroner, NULL, check_for_dead, philo); //test
+		pthread_create(&coroner, NULL, check_for_dead, philo); //test
 		take_forks(philo);
 		time_to_eat(philo);
-		// pthread_detach(coroner); // test
+		pthread_detach(coroner); // test
 		if (dining_is_over(philo))
 			break ;
 		time_to_sleep(philo);
