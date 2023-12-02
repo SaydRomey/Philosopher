@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/30 13:36:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/01 17:11:03 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	start_simulation(void)
 			return (put_error_msg());
 	if (wait_for_threads(philo) != SUCCESS)
 			return (put_error_msg());
-	check_for_dead(philo);
 }
 
 int	main(int argc, char **argv)

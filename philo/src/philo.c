@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/30 13:46:46 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/11/30 16:03:33 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	setup_philos(t_philo **philo)
 		i++;
 	}
 	call_info()->philo_ptr = *philo;
+	call_info()->hungry_philos = number_of_philos;
 	return (SUCCESS);
 }

@@ -6,9 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/30 13:46:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/01 20:45:36 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// do we use memset?
 
 #ifndef PHILO_H
 # define PHILO_H
@@ -19,6 +21,8 @@
 # include <unistd.h> // write, usleep
 # include <sys/time.h> // gettimeofday
 # include <pthread.h> // threads functions
+// 
+# include <stdarg.h> // tmp (to remove)
 
 
 # define TRUE		1
@@ -47,8 +51,10 @@
 
 // log messages
 
-# define GREEN		"\033[32m"
 # define RED		"\033[31m"
+# define GREEN		"\033[32m"
+# define YELLOW		"\033[33m"
+# define BLUE		"\033[34m"
 # define RESET		"\033[0m"
 
 # define LOG_FORK	"has taken a fork"
@@ -66,7 +72,6 @@ typedef struct s_philo
 	long			last_meal_time;
 	int				meals_eaten;
 	pthread_t		thread;
-	// 
 }					t_philo;
 
 typedef struct s_info
@@ -76,7 +81,7 @@ typedef struct s_info
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				meal_goal; // optional (default = -1)
-	// int				total_meal_count;
+	int				hungry_philos; //?
 	// 
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log_mutex;
@@ -96,8 +101,8 @@ int		args_are_valid(int argc, char **argv);
 int		cleanup(int exit_status);
 
 // death.c
-void	check_for_dead(t_philo *philo_ptr);
 int		no_one_is_dead(t_info *info);
+void	*check_for_dead(void *arg);
 
 // error.c
 void	set_error_msg(char *msg);
@@ -113,6 +118,7 @@ void	free_info(void);
 // log.c
 void	log_state_change(long time, int id, char *state, char *color);
 void	log_death(long time, int id);
+void	log_misc(char *msg);
 
 // mutexes.c
 int		allocate_forks(void);
@@ -141,6 +147,8 @@ void	print_info(void);
 void	print_philo_info(t_philo *philo);
 void	proof(char *msg);
 void	tmp_log(char *msg, ...);
+void	lock_mutex(pthread_mutex_t *mutex, char *str, ...);
+void	unlock_mutex(pthread_mutex_t *mutex, char *str, ...);
 
 // utils.c
 int		ft_isdigit(char c);
