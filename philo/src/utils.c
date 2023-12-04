@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:35:41 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 10:31:24 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 10:52:45 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_isdigit(char c)
 	return (FALSE);
 }
 
-static int	ft_isspace(char c)
+static inline int	ft_isspace(char c)
 {
 	if (c == ' ' || (c >= '\t' && c <= '\r'))
 		return (TRUE);

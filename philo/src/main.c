@@ -6,13 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/01 17:11:03 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 14:20:08 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// check for optionnal arg at 0 ?
 
 int	table_for_one(void)
 {
@@ -21,9 +19,9 @@ int	table_for_one(void)
 	info = call_info();
 	if (info->number_of_philos == 1)
 	{
+		printf("0\t1 %s\n", LOG_FORK);
 		spend_time(info->time_to_die);
-		// printf("%ld\t%d %s\n", info->time_to_die, 1, LOG_DIED);
-		log_death(info->time_to_die, 1);
+		printf("%ld\t1 %s%s%s\n", info->time_to_die, RED, LOG_DIED, RESET);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -31,16 +29,25 @@ int	table_for_one(void)
 
 void	start_simulation(void)
 {
-	t_info	*info;
-	t_philo	*philo;
+	t_info		*info;
+	t_philo		*philo;
+	pthread_t	monitor;
 
 	if (table_for_one())
 		return ;
 	info = call_info();
 	philo = info->philo_ptr;
 	info->start_time = philo_time();
+	// 	
+	if (pthread_create(&monitor, NULL, check_for_dead, philo) != SUCCESS)
+		return (put_error_msg());
+	// 
 	if (create_threads(philo) != SUCCESS)
 			return (put_error_msg());
+	// 
+	if (pthread_join(monitor, NULL) != SUCCESS)
+		return (put_error_msg());
+	// 
 	if (wait_for_threads(philo) != SUCCESS)
 			return (put_error_msg());
 }

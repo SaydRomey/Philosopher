@@ -6,13 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:55:07 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 12:12:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 10:16:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// todo: handle edge cases
 
 /*
 returns FALSE (0) if 'arg' either contains a non-digit char

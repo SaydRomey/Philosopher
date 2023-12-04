@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 10:45:48 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/29 11:54:29 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 11:32:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ frees the struct and returns 'return_value'
 */
 int	error(int return_value)
 {
-	// ft_putstr_fd("Error: ", STDERR_FILENO);
-	// ft_putstr_fd(get_error_msg(), STDERR_FILENO);
-	// ft_putstr_fd("\n", STDERR_FILENO);
 	put_error_msg();	
 	free_info();
 	return (return_value);

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 12:15:04 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/01 21:39:55 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 10:59:47 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	init_mutexes(void)
 	check += pthread_mutex_init(&info->log_mutex, NULL);
 	check += pthread_mutex_init(&info->meal_mutex, NULL);
 	check += pthread_mutex_init(&info->death_mutex, NULL);
-	check += pthread_mutex_init(&info->end_mutex, NULL);
+	// check += pthread_mutex_init(&info->end_mutex, NULL);
 	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_INIT), FAILURE);
 	return (SUCCESS);
@@ -74,7 +74,7 @@ int	destroy_mutexes(void)
 	check += pthread_mutex_destroy(&info->log_mutex);
 	check += pthread_mutex_destroy(&info->meal_mutex);
 	check += pthread_mutex_destroy(&info->death_mutex);
-	check += pthread_mutex_destroy(&info->end_mutex);
+	// check += pthread_mutex_destroy(&info->end_mutex);
 	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_DESTROY), FAILURE);
 	return (SUCCESS);

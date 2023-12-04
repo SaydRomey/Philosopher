@@ -37,11 +37,9 @@ void	set_info(int argc, char **argv)
 	if (argc == 6)
 	{
 		info->meal_goal = ft_atol(argv[5]);
-		// info->meal_goal *= info->number_of_philos;
 	}
 	else
 		info->meal_goal = -1;
-	// info->total_meal_count = 0;
 	info->dead_philo = FALSE;
 }
 

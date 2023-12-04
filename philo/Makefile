@@ -6,7 +6,7 @@
 #    By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/20 14:37:49 by cdumais           #+#    #+#              #
-#    Updated: 2023/12/01 21:29:49 by cdumais          ###   ########.fr        #
+#    Updated: 2023/12/04 14:23:43 by cdumais          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ ARG_4	:= 200
 # number of times each philosopher must eat
 ARG_5	:= 2
 
-# ARGS	:= $(ARG_1) $(ARG_2) $(ARG_3) $(ARG_4) $(ARG_5)
+ARGS	:= $(ARG_1) $(ARG_2) $(ARG_3) $(ARG_4) $(ARG_5)
 
 # should not eat and should die
 # ARGS	:= 1 800 200 200
@@ -39,7 +39,14 @@ ARG_5	:= 2
 # ARGS	:= 5 800 200 200
 
 # no philo should die and simulation should stop when all philos ate at least 3 times
-ARGS	:= 5 800 200 200 3
+# ARGS	:= 5 800 200 200 3
+
+# no philo should die
+# ARGS	:= 4 410 200 200
+
+# one philo should die (test difference in time of death)
+# ARGS	:= 4 310 200 100
+# ARGS	:= 2 310 200 100
 
 
 INC_DIR	:= inc
@@ -116,11 +123,11 @@ run: $(NAME)
 debug: C_FLAGS += -g
 debug: re
 
-leaks: $(NAME)
-	@valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
+leaks: debug
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARGS)
 
 helgrind: debug
-	@valgrind --tool=helgrind ./$(NAME) $(ARGS)
+	valgrind --tool=helgrind ./$(NAME) $(ARGS)
 
 assembly: $(NAME) | $(TMP_DIR)
 	@$(COMPILE) $(C_FLAGS) -S $(SRCS) $(HEADERS)

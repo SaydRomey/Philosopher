@@ -6,26 +6,11 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 20:31:18 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/01 21:18:16 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/04 10:53:27 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	tmp_log(char *msg, ...)
-{
-	t_info	*info;
-	va_list	args;
-
-	info = call_info();
-	lock_mutex(&info->log_mutex, "[log_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_lock(&info->log_mutex);
-	va_start(args, msg);
-	vprintf(msg, args);
-	va_end(args);
-	unlock_mutex(&info->log_mutex, "[log_mutex] (%s, l.%d)", __FILE__, __LINE__);
-	// pthread_mutex_unlock(&info->log_mutex);
-}
 
 void	print_info(void)
 {
