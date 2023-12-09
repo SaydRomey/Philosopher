@@ -6,24 +6,18 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 13:39:41 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 02:20:34 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// do we use memset?
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <string.h> // memset
-# include <stdio.h> // printf
-# include <stdlib.h> // malloc, free
-# include <unistd.h> // write, usleep
-# include <sys/time.h> // gettimeofday
-# include <pthread.h> // threads functions
-// 
-# include <stdarg.h> // tmp (to remove)
-
+# include <stdio.h>			// printf
+# include <stdlib.h>		// malloc, free
+# include <unistd.h>		// write, usleep
+# include <sys/time.h>		// gettimeofday
+# include <pthread.h>		// threads functions
 
 # define TRUE		1
 # define FALSE		0
@@ -32,12 +26,10 @@
 # define FAILURE	1
 
 # ifndef INT_MAX
-# 	define INT_MAX	2147483647
+#  define INT_MAX	2147483647
 # endif
 
 # define PHILO_MAX	200
-
-// error messages
 
 # define ERR_ARGC			"wrong number of arguments, expected 4 or 5"
 # define ERR_ARG_INT		"arguments must be positive integers"
@@ -49,20 +41,18 @@
 # define ERR_THREAD_CREATE	"pthread_create() failed"
 # define ERR_THREAD_JOIN	"pthread_join() failed"
 
-// log messages
+# define LOG_FORK			"has taken a fork"
+# define LOG_EAT			"is eating"
+# define LOG_SLEEP			"is sleeping"
+# define LOG_THINK			"is thinking"
+# define LOG_DIED			"died"
+# define LOG_FULL			"is full"
 
-# define RED		"\033[31m"
-# define GREEN		"\033[32m"
-# define YELLOW		"\033[33m"
-# define BLUE		"\033[34m"
-# define RESET		"\033[0m"
-
-# define LOG_FORK	"has taken a fork"
-# define LOG_EAT	"is eating"
-# define LOG_SLEEP	"is sleeping"
-# define LOG_THINK	"is thinking"
-# define LOG_DIED	"died"
-# define LOG_FULL	"is full"
+# define RED				"\033[31m"
+# define GREEN				"\033[32m"
+# define YELLOW				"\033[33m"
+# define BLUE				"\033[34m"
+# define RESET				"\033[0m"
 
 typedef struct s_philo
 {
@@ -81,15 +71,13 @@ typedef struct s_info
 	long			time_to_die;
 	long			time_to_eat;
 	long			time_to_sleep;
-	int				meal_goal; // optional (default = -1)
-	int				hungry_philos; //?
-	// 
+	int				meal_goal;
+	int				hungry_philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	death_mutex;
-	// pthread_mutex_t	end_mutex; //?
-	// 
+	int				mutex_flag;
 	t_philo			*philo_ptr;
 	int				dead_philo;
 	long			start_time;
@@ -97,10 +85,7 @@ typedef struct s_info
 }					t_info;
 
 // arguments.c
-int		args_are_valid(int argc, char **argv);
-
-// cleanup.c
-int		cleanup(int exit_status);
+int		args_are_valid(int argc, char **argv, char **reason);
 
 // death.c
 int		no_one_is_dead(t_info *info);
@@ -116,6 +101,7 @@ int		error(int return_value);
 t_info	*call_info(void);
 void	set_info(int argc, char **argv);
 void	free_info(void);
+int		cleanup(int exit_status);
 
 // log.c
 void	log_state_change(long time, int id, char *state, char *color);
@@ -123,10 +109,9 @@ void	log_death(long time, int id);
 void	log_misc(char *msg, int time_flag);
 
 // mutexes.c
-int		allocate_forks(void);
-int		init_mutexes(void);
 int		setup_mutexes(void);
 int		destroy_mutexes(void);
+// void	lock_mutex(pthread_mutex_t *mutex, char *str, ...);
 
 // philo.c
 int		setup_philos(t_philo **philos);
@@ -135,21 +120,14 @@ int		setup_philos(t_philo **philos);
 void	*routine(void *arg);
 
 // threads.c
-int		create_threads(t_philo *philo_ptr);
-int		wait_for_threads(t_philo *philo_ptr);
+int		create_threads(t_philo *philo_ptr, pthread_t *monitor);
+int		wait_for_threads(t_philo *philo_ptr, pthread_t *monitor);
 
 // time_utils.c
 long	timeval_diff(struct timeval start, struct timeval end);
 void	spend_time(long milliseconds);
 long	philo_time(void);
-void	test_sleep_accuracy(void);
-
-// tmp.c
-void	print_info(void);
-void	print_philo_info(t_philo *philo);
-void	here(char *file, int line);
-void	lock_mutex(pthread_mutex_t *mutex, char *str, ...);
-void	unlock_mutex(pthread_mutex_t *mutex, char *str, ...);
+// void	test_sleep_accuracy(void);
 
 // utils.c
 int		ft_isdigit(char c);

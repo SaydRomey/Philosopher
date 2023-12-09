@@ -6,11 +6,15 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:35:51 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 14:08:09 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 02:14:43 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int	everyone_is_full(t_info *info);
+static int	someone_starved(t_philo *philo);
+static void	handle_dead(t_philo *philo);
 
 int	no_one_is_dead(t_info *info)
 {
@@ -22,49 +26,6 @@ int	no_one_is_dead(t_info *info)
 	if (dead)
 		return (FALSE);
 	return (TRUE);
-}
-
-void	handle_dead(t_philo *philo)
-{
-	t_info	*info;
-
-	info = call_info();
-	pthread_mutex_lock(&info->death_mutex);
-	info->dead_philo = TRUE;
-	pthread_mutex_unlock(&info->death_mutex);
-	log_death(philo_time(), philo->id);
-}
-
-int	someone_starved(t_philo *philo)
-{
-	t_info	*info;
-	long	now;
-	long	last_meal;
-	int		starved;
-
-	info = call_info();
-	pthread_mutex_lock(&info->meal_mutex);
-	now = philo_time();
-	last_meal = philo->last_meal_time;
-	pthread_mutex_unlock(&info->meal_mutex);
-	// if (no_one_is_dead(info) && now - last_meal > info->time_to_die) //check
-	if (now - last_meal > info->time_to_die)
-		starved = TRUE;
-	else
-		starved = FALSE;
-	return (starved);
-}
-
-int	everyone_is_full(t_info *info)
-{
-	int	hungry;
-
-	pthread_mutex_lock(&info->meal_mutex);
-	hungry = info->hungry_philos;
-	pthread_mutex_unlock(&info->meal_mutex);
-	if (hungry == 0)
-		return (TRUE);
-	return (FALSE);
 }
 
 void	*check_for_dead(void *arg)
@@ -89,7 +50,49 @@ void	*check_for_dead(void *arg)
 			}
 			i++;
 		}
-		spend_time(42);
+		spend_time(1);
 	}
 	return (NULL);
+}
+
+static int	everyone_is_full(t_info *info)
+{
+	int	hungry;
+
+	pthread_mutex_lock(&info->meal_mutex);
+	hungry = info->hungry_philos;
+	pthread_mutex_unlock(&info->meal_mutex);
+	if (hungry == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+static int	someone_starved(t_philo *philo)
+{
+	t_info	*info;
+	long	now;
+	long	last_meal;
+	int		starved;
+
+	info = call_info();
+	pthread_mutex_lock(&info->meal_mutex);
+	now = philo_time();
+	last_meal = philo->last_meal_time;
+	pthread_mutex_unlock(&info->meal_mutex);
+	if (now - last_meal > info->time_to_die)
+		starved = TRUE;
+	else
+		starved = FALSE;
+	return (starved);
+}
+
+static void	handle_dead(t_philo *philo)
+{
+	t_info	*info;
+
+	info = call_info();
+	pthread_mutex_lock(&info->death_mutex);
+	info->dead_philo = TRUE;
+	pthread_mutex_unlock(&info->death_mutex);
+	log_death(philo_time(), philo->id);
 }

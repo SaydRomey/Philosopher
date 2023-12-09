@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 10:45:48 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 11:32:29 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 01:50:16 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /*
 sets the error message in t_info
-and returns FALSE (0)
 */
 void	set_error_msg(char *msg)
 {
@@ -39,6 +38,9 @@ char	*get_error_msg(void)
 	return (info->error_msg);
 }
 
+/*
+prints current error message in 't_info' to stderr
+*/
 void	put_error_msg(void)
 {
 	ft_putstr_fd("Error: ", STDERR_FILENO);
@@ -52,7 +54,7 @@ frees the struct and returns 'return_value'
 */
 int	error(int return_value)
 {
-	put_error_msg();	
+	put_error_msg();
 	free_info();
 	return (return_value);
 }

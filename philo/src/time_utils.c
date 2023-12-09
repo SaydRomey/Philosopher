@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 18:09:59 by cdumais           #+#    #+#             */
-/*   Updated: 2023/11/28 10:13:53 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 02:16:51 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ long	timeval_diff(struct timeval start, struct timeval end)
 	return (elapsed);
 }
 
-/*
-*/
 void	spend_time(long milliseconds)
 {
 	struct timeval	start;
@@ -47,7 +45,7 @@ void	spend_time(long milliseconds)
 		elapsed = timeval_diff(start, current);
 		remaining = microseconds - elapsed;
 		if (elapsed >= microseconds)
-			break;
+			break ;
 		if (remaining > 1000)
 			usleep(remaining / 2);
 	}
@@ -71,7 +69,7 @@ long	philo_time(void)
 	return (milliseconds);
 }
 
-// 
+/*
 # define TEST_TIME 1000
 
 void	test_sleep_accuracy(void)
@@ -95,3 +93,4 @@ void	test_sleep_accuracy(void)
 	printf("Expected sleep duration:\t%d ms\n", TEST_TIME);
 	printf("Actual sleep duration:\t\t%.2f ms\n", elapsed_milliseconds);
 }
+*/

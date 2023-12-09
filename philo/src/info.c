@@ -48,10 +48,20 @@ void	free_info(void)
 	t_info	*info;
 
 	info = call_info();
-	destroy_mutexes();
+	if (info->mutex_flag)
+		destroy_mutexes();
 	if (info->forks)
 		free(info->forks);
 	if (info->philo_ptr)
 		free(info->philo_ptr);
 	free(info);
+}
+
+/*
+frees 't_param' and returns 'exit_status'
+*/
+int	cleanup(int exit_status)
+{
+	free_info();
+	return (exit_status);
 }

@@ -6,13 +6,41 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 14:20:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 02:03:59 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	table_for_one(void)
+void		start_simulation(void);
+static int	cancel_dinner(char *reason);
+
+int	main(int argc, char **argv)
+{
+	int		ok;
+	char	*reason;
+	t_philo	*philo;
+
+	ok = TRUE;
+	reason = NULL;
+	if (!args_are_valid(argc, argv, &reason))
+		return (cancel_dinner(reason));
+	else
+	{
+		set_info(argc, argv);
+		if (setup_philos(&philo) != SUCCESS)
+			ok = FALSE;
+		else if (setup_mutexes() != SUCCESS)
+			ok = FALSE;
+	}
+	if (ok)
+		start_simulation();
+	else
+		return (error(FAILURE));
+	return (cleanup(SUCCESS));
+}
+
+static int	table_for_one(void)
 {
 	t_info	*info;
 
@@ -38,39 +66,16 @@ void	start_simulation(void)
 	info = call_info();
 	philo = info->philo_ptr;
 	info->start_time = philo_time();
-	// 	
-	if (pthread_create(&monitor, NULL, check_for_dead, philo) != SUCCESS)
+	if (create_threads(philo, &monitor) != SUCCESS)
 		return (put_error_msg());
-	// 
-	if (create_threads(philo) != SUCCESS)
-			return (put_error_msg());
-	// 
-	if (pthread_join(monitor, NULL) != SUCCESS)
+	if (wait_for_threads(philo, &monitor) != SUCCESS)
 		return (put_error_msg());
-	// 
-	if (wait_for_threads(philo) != SUCCESS)
-			return (put_error_msg());
 }
 
-int	main(int argc, char **argv)
+static int	cancel_dinner(char *reason)
 {
-	int		ok;
-	t_philo *philo;
-
-	ok = TRUE;
-	if (!args_are_valid(argc, argv))
-		ok = FALSE;
-	else
-	{
-		set_info(argc, argv);
-		if (setup_philos(&philo) != SUCCESS)
-			ok = FALSE;
-		else if (setup_mutexes() != SUCCESS)
-			ok = FALSE;
-	}
-	if (ok)
-		start_simulation();
-	else
-		return (error(FAILURE));
-	return (cleanup(SUCCESS));
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd(reason, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	return (FAILURE);
 }

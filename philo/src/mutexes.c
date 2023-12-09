@@ -6,13 +6,26 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 12:15:04 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 10:59:47 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 02:02:40 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	allocate_forks(void)
+static int	allocate_forks(void);
+static int	init_mutexes(void);
+
+int	setup_mutexes(void)
+{
+	if (allocate_forks() != SUCCESS)
+		return (FAILURE);
+	if (init_mutexes() != SUCCESS)
+		return (FAILURE);
+	call_info()->mutex_flag = TRUE;
+	return (SUCCESS);
+}
+
+static int	allocate_forks(void)
 {
 	t_info	*info;
 
@@ -23,7 +36,7 @@ int	allocate_forks(void)
 	return (SUCCESS);
 }
 
-int	init_mutexes(void)
+static int	init_mutexes(void)
 {
 	int		i;
 	int		check;
@@ -41,18 +54,8 @@ int	init_mutexes(void)
 	check += pthread_mutex_init(&info->log_mutex, NULL);
 	check += pthread_mutex_init(&info->meal_mutex, NULL);
 	check += pthread_mutex_init(&info->death_mutex, NULL);
-	// check += pthread_mutex_init(&info->end_mutex, NULL);
 	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_INIT), FAILURE);
-	return (SUCCESS);
-}
-
-int	setup_mutexes(void)
-{
-	if (allocate_forks() == FAILURE)
-		return (FAILURE);
-	if (init_mutexes() == FAILURE)
-		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -74,8 +77,26 @@ int	destroy_mutexes(void)
 	check += pthread_mutex_destroy(&info->log_mutex);
 	check += pthread_mutex_destroy(&info->meal_mutex);
 	check += pthread_mutex_destroy(&info->death_mutex);
-	// check += pthread_mutex_destroy(&info->end_mutex);
 	if (check != SUCCESS)
 		return (set_error_msg(ERR_MUTEX_DESTROY), FAILURE);
 	return (SUCCESS);
 }
+
+/*
+**for debugging*
+usage:	lock_mutex(&info->mutex, "[nameof_mutex] (%s, l.%d)", __FILE__, __LINE__);
+
+#include <stdarg.h>
+
+void	lock_mutex(pthread_mutex_t *mutex, char *str, ...)
+{
+	va_list	args;
+
+	printf(BLUE"LOCKING\t\t->"RESET);
+	va_start(args, str);
+	vprintf(str, args);
+	va_end(args);
+	printf("\n");
+	pthread_mutex_lock(mutex);	
+}
+*/

@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 18:21:23 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 12:28:40 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 01:52:56 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 uses mutexes 'log_mutex' and 'death_mutex'
 to print state change if no philo is dead
-**(use ANSI escape codes to print in color, or NULL)**
+(use ANSI escape codes to print in color, or NULL)
 */
 void	log_state_change(long time, int id, char *state, char *color)
 {
@@ -53,7 +53,7 @@ void	log_death(long time, int id)
 	info = call_info();
 	pthread_mutex_lock(&info->log_mutex);
 	now = time - info->start_time;
-	now = now - (now % 10); //?
+	now = now - (now % 10);
 	printf("%ld\t%d %s%s%s\n", now, id, RED, LOG_DIED, RESET);
 	pthread_mutex_unlock(&info->log_mutex);
 }
