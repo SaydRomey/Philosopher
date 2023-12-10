@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:00:10 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 02:20:34 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:57:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@
 # define LOG_DIED			"died"
 # define LOG_FULL			"is full"
 
-# define RED				"\033[31m"
-# define GREEN				"\033[32m"
-# define YELLOW				"\033[33m"
+# define RED				"\033[91m"
+# define GREEN				"\033[92m"
+# define YELLOW				"\033[93m"
+# define ORANGE				"\033[38;5;208m"
 # define BLUE				"\033[34m"
+# define MAGENTA			"\033[95m"
+# define CYAN				"\033[96m"
 # define RESET				"\033[0m"
 
 typedef struct s_philo
@@ -81,6 +84,7 @@ typedef struct s_info
 	t_philo			*philo_ptr;
 	int				dead_philo;
 	long			start_time;
+	long			time_of_death;
 	char			*error_msg;
 }					t_info;
 
@@ -105,7 +109,7 @@ int		cleanup(int exit_status);
 
 // log.c
 void	log_state_change(long time, int id, char *state, char *color);
-void	log_death(long time, int id);
+void	log_death(long time_of_death, int id);
 void	log_misc(char *msg, int time_flag);
 
 // mutexes.c

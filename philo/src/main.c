@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 02:03:59 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:46:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 
 	ok = TRUE;
 	reason = NULL;
-	if (!args_are_valid(argc, argv, &reason))
+	if (args_are_valid(argc, argv, &reason) != TRUE)
 		return (cancel_dinner(reason));
 	else
 	{

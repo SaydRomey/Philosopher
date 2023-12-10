@@ -6,13 +6,13 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 12:55:07 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 01:31:31 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:46:52 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	args_is_positive_int(char *arg);
+static int	args_are_positive_int(char *arg);
 
 int	args_are_valid(int argc, char **argv, char **reason)
 {
@@ -23,7 +23,7 @@ int	args_are_valid(int argc, char **argv, char **reason)
 	i = 1;
 	while (i < argc)
 	{
-		if (args_is_positive_int(argv[i]) == FALSE)
+		if (args_are_positive_int(argv[i]) != TRUE)
 			return (*reason = ERR_ARG_INT, FALSE);
 		i++;
 	}
@@ -32,7 +32,7 @@ int	args_are_valid(int argc, char **argv, char **reason)
 	return (TRUE);
 }
 
-static int	args_is_positive_int(char *arg)
+static int	args_are_positive_int(char *arg)
 {
 	int	i;
 

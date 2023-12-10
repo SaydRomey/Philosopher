@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:31:17 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 02:12:22 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:13:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,42 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+static void	take_forks(t_philo *philo)
+{
+	t_info	*info;
+
+	info = call_info();
+	pthread_mutex_lock(&info->forks[philo->left_fork]);
+	log_state_change(philo_time(), philo->id, LOG_FORK, NULL);
+	pthread_mutex_lock(&info->forks[philo->right_fork]);
+	log_state_change(philo_time(), philo->id, LOG_FORK, NULL);
+}
+
+static void	time_to_eat(t_philo *philo)
+{
+	t_info	*info;
+
+	info = call_info();
+	log_state_change(philo_time(), philo->id, LOG_EAT, CYAN);
+	pthread_mutex_lock(&info->meal_mutex);
+	philo->last_meal_time = philo_time();
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&info->meal_mutex);
+	spend_time(info->time_to_eat);
+	pthread_mutex_unlock(&info->forks[philo->right_fork]);
+	pthread_mutex_unlock(&info->forks[philo->left_fork]);
+}
+
+static void	time_to_sleep(t_philo *philo)
+{
+	t_info	*info;
+
+	info = call_info();
+	log_state_change(philo_time(), philo->id, LOG_SLEEP, MAGENTA);
+	spend_time(info->time_to_sleep);
+	log_state_change(philo_time(), philo->id, LOG_THINK, YELLOW);
+}
+
 static int	dining_is_over(t_philo *philo)
 {
 	t_info	*info;
@@ -59,40 +95,4 @@ static int	dining_is_over(t_philo *philo)
 	}
 	pthread_mutex_unlock(&info->meal_mutex);
 	return (philo->is_full);
-}
-
-static void	take_forks(t_philo *philo)
-{
-	t_info	*info;
-
-	info = call_info();
-	pthread_mutex_lock(&info->forks[philo->left_fork]);
-	log_state_change(philo_time(), philo->id, LOG_FORK "\t(left)", NULL);
-	pthread_mutex_lock(&info->forks[philo->right_fork]);
-	log_state_change(philo_time(), philo->id, LOG_FORK "\t(right)", NULL);
-}
-
-static void	time_to_eat(t_philo *philo)
-{
-	t_info	*info;
-
-	info = call_info();
-	log_state_change(philo_time(), philo->id, LOG_EAT, NULL);
-	pthread_mutex_lock(&info->meal_mutex);
-	philo->last_meal_time = philo_time();
-	philo->meals_eaten++;
-	pthread_mutex_unlock(&info->meal_mutex);
-	spend_time(info->time_to_eat);
-	pthread_mutex_unlock(&info->forks[philo->right_fork]);
-	pthread_mutex_unlock(&info->forks[philo->left_fork]);
-}
-
-static void	time_to_sleep(t_philo *philo)
-{
-	t_info	*info;
-
-	info = call_info();
-	log_state_change(philo_time(), philo->id, LOG_SLEEP, NULL);
-	spend_time(info->time_to_sleep);
-	log_state_change(philo_time(), philo->id, LOG_THINK, NULL);
 }

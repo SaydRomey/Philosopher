@@ -57,9 +57,6 @@ void	free_info(void)
 	free(info);
 }
 
-/*
-frees 't_param' and returns 'exit_status'
-*/
 int	cleanup(int exit_status)
 {
 	free_info();

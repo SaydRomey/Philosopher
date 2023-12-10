@@ -6,15 +6,12 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 10:45:48 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 01:50:16 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/09 22:32:00 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-sets the error message in t_info
-*/
 void	set_error_msg(char *msg)
 {
 	t_info	*info;
@@ -25,22 +22,16 @@ void	set_error_msg(char *msg)
 	info->error_msg = msg;
 }
 
-/*
-returns current error message in 't_info'
-*/
 char	*get_error_msg(void)
 {
 	t_info	*info;
 
 	info = call_info();
 	if (!info->error_msg)
-		return ("[insert error message here]");
+		return ("[error message not set]");
 	return (info->error_msg);
 }
 
-/*
-prints current error message in 't_info' to stderr
-*/
 void	put_error_msg(void)
 {
 	ft_putstr_fd("Error: ", STDERR_FILENO);
@@ -48,10 +39,6 @@ void	put_error_msg(void)
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
-/*
-prints current error message in 't_info' to stderr,
-frees the struct and returns 'return_value'
-*/
 int	error(int return_value)
 {
 	put_error_msg();
