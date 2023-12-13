@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:35:41 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 10:52:45 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:56:39 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static inline int	ft_isspace(char c)
 	return (FALSE);
 }
 
+/*
+convert the main's arguments to be used as simulation parameters
+*/
 long	ft_atol(char *str)
 {
 	int		i;

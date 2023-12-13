@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 12:15:04 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 23:13:08 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:57:58 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	setup_mutexes(void)
 	return (SUCCESS);
 }
 
+/*
+malloc for each fork mutex
+*/
 static int	allocate_forks(void)
 {
 	t_info	*info;
@@ -83,8 +86,9 @@ int	destroy_mutexes(void)
 }
 
 /*
-**for debugging*
-usage:	lock_mutex(&info->mutex, "[nameof_mutex] (%s, l.%d)", __FILE__, __LINE__);
+// *for debugging*
+
+usage:	lock_mutex(&info->mutex, "[mutexname] (%s, l.%d)", __FILE__, __LINE__);
 
 #include <stdarg.h>
 

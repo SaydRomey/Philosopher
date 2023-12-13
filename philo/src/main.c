@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:05:12 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 22:46:39 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:53:04 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ int	main(int argc, char **argv)
 	return (cleanup(SUCCESS));
 }
 
+/*
+edge case of only 1 philo (1 fork) handled in its own function
+*/
 static int	table_for_one(void)
 {
 	t_info	*info;
@@ -55,23 +58,30 @@ static int	table_for_one(void)
 	return (FALSE);
 }
 
+/*
+creates a thread that checks the vitals of each philo
+handles creation and joining of all philo threads
+*/
 void	start_simulation(void)
 {
 	t_info		*info;
 	t_philo		*philo;
-	pthread_t	monitor;
+	pthread_t	coroner;
 
 	if (table_for_one())
 		return ;
 	info = call_info();
 	philo = info->philo_ptr;
 	info->start_time = philo_time();
-	if (create_threads(philo, &monitor) != SUCCESS)
+	if (create_threads(philo, &coroner) != SUCCESS)
 		return (put_error_msg());
-	if (wait_for_threads(philo, &monitor) != SUCCESS)
+	if (wait_for_threads(philo, &coroner) != SUCCESS)
 		return (put_error_msg());
 }
 
+/*
+terminate program if args are invalid
+*/
 static int	cancel_dinner(char *reason)
 {
 	ft_putstr_fd("Error: ", STDERR_FILENO);

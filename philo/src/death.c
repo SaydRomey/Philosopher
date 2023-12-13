@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:35:51 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 23:08:17 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:53:35 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int	no_one_is_dead(t_info *info)
 	return (TRUE);
 }
 
+/*
+routine for the 'coroner' thread
+*/
 void	*check_for_dead(void *arg)
 {
 	t_philo	*philo;

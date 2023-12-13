@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 18:21:23 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 23:08:40 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:41:13 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
 use ANSI escape codes for 'color' to print state change in color, or NULL
+(macros for colors are defined in 'philo.h')
 */
 void	log_state_change(long time, int id, char *state, char *color)
 {

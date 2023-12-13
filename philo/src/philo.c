@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 13:51:57 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/04 12:40:42 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:49:45 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /*
 handles the creation of the 't_philo' array
 sets the 'philo_ptr' in 't_info' to the address of the array
-and returns SUCCESS (1) or FAILURE (0)
 */
 int	setup_philos(t_philo **philo)
 {

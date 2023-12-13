@@ -9,5 +9,7 @@ philo
 obj
 tmp
 
+*.dSYM
+
 .DS_Store
 .vscode

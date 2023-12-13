@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+/*
+calls the static 't_info' struct with all the important information
+*/
 t_info	*call_info(void)
 {
 	static t_info	*info;
@@ -25,6 +28,9 @@ t_info	*call_info(void)
 	return (info);
 }
 
+/*
+sets the parameters in t_info
+*/
 void	set_info(int argc, char **argv)
 {
 	t_info	*info;

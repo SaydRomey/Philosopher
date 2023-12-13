@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 18:09:59 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 20:01:01 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:55:51 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ long	timeval_diff(struct timeval start, struct timeval end)
 	return (elapsed);
 }
 
+/*
+precise implementation of a sleeping function
+*/
 void	spend_time(long milliseconds)
 {
 	struct timeval	start;
@@ -70,6 +73,7 @@ long	philo_time(void)
 }
 
 /*
+// * (replace 'spend_time(TEST_TIME)' with your function to test its precision)
 # define TEST_TIME 1000
 
 void	test_sleep_accuracy(void)

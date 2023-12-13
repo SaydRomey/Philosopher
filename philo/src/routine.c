@@ -6,7 +6,7 @@
 /*   By: cdumais <cdumais@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 17:31:17 by cdumais           #+#    #+#             */
-/*   Updated: 2023/12/09 22:13:29 by cdumais          ###   ########.fr       */
+/*   Updated: 2023/12/13 13:50:29 by cdumais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static void		time_to_eat(t_philo *philo);
 static void		time_to_sleep(t_philo *philo);
 static int		dining_is_over(t_philo *philo);
 
+/*
+main routine for each 'philo' thread
+*/
 void	*routine(void *arg)
 {
 	t_philo		*philo;
